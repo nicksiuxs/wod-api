@@ -7,7 +7,7 @@ const getAllWorkouts = () => {
 }
 
 const createNewWorkout = (newWorkout) => {
-    const isAlreadyTaken = DB.workouts.findIndex((workout) => workout.name === newWorkout.name > -1)
+    const isAlreadyTaken = DB.workouts.findIndex((workout) => workout.name === newWorkout.name) > -1;
     if (isAlreadyTaken) {
         return;
     }
