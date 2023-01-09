@@ -64,12 +64,26 @@ const createNewWorkout = (req, res) => {
 }
 
 const updateOneWorkout = (req, res) => {
-    const { body, params: { workoutId } } = req;
+    const {
+        body,
+        params: { workoutId },
+    } = req;
     if (!workoutId) {
-        return;
+        res
+            .status(400)
+            .send({
+                status: "FAILED",
+                data: { error: "Parameter ':workoutId' can not be empty" },
+            });
     }
-    const updatedWorkout = workoutService.updateOneWorkout(workoutId, body);
-    res.send({ status: "OK", data: updatedWorkout });
+    try {
+        const updatedWorkout = workoutService.updateOneWorkout(workoutId, body);
+        res.send({ status: "OK", data: updatedWorkout });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: error?.message || error } });
+    }
 }
 
 const deleteOneWorkout = (req, res) => {

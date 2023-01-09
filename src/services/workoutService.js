@@ -38,8 +38,12 @@ const createNewWorkout = (newWorkout) => {
 }
 
 const updateOneWorkout = (workoutId, changes) => {
-    const updatedWorkout = Workout.updateWorkout(workoutId, changes);
-    return updatedWorkout;
+    try {
+        const updatedWorkout = Workout.updateOneWorkout(workoutId, changes);
+        return updatedWorkout;
+    } catch (error) {
+        throw error;
+    }
 }
 
 const deleteOneWorkout = (workoutId) => {
