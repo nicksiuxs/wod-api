@@ -4,9 +4,9 @@ const { v4: uuid } = require("uuid");
 const Workout = require("../database/workout");
 
 //This layer is in charge of the business logic
-const getAllWorkouts = () => {
+const getAllWorkouts = (filterParams) => {
     try {
-        const allworkouts = Workout.getAllWorkouts();
+        const allworkouts = Workout.getAllWorkouts(filterParams);
         return allworkouts;
     } catch (error) {
         throw error;
