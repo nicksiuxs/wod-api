@@ -2,7 +2,6 @@ const workoutService = require("../services/workoutService");
 
 const getAllWorkouts = (req, res) => {
     try {
-
         const allworkouts = workoutService.getAllWorkouts();
         res.status(200).send({ status: 'OK', data: allworkouts });
     } catch (error) {
@@ -15,10 +14,21 @@ const getAllWorkouts = (req, res) => {
 const getOneWorkout = (req, res) => {
     const { params: { workoutId } } = req;
     if (!workoutId) {
-        return;
+        res
+            .status(400)
+            .send({
+                status: "FAILED",
+                data: { error: "Parameter ':workoutId' can not be empty" },
+            });
     }
-    const workout = workoutService.getOneWorkout(workoutId);
-    res.send({ status: "OK", data: workout });
+    try {
+        const workout = workoutService.getOneWorkout(workoutId);
+        res.send({ status: "OK", data: workout });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: error?.message || error } });
+    }
 }
 
 const createNewWorkout = (req, res) => {
