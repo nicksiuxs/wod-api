@@ -26,8 +26,9 @@ const createNewWorkout = (newWorkout) => {
     return createdWorkout;
 }
 
-const updateOneWorkout = () => {
-    return;
+const updateOneWorkout = (workoutId, changes) => {
+    const updatedWorkout = Workout.updateWorkout(workoutId, changes);
+    return updatedWorkout;
 }
 
 const deleteOneWorkout = () => {
