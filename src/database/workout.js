@@ -75,13 +75,21 @@ const updateWorkout = (workoutId, changes) => {
 }
 
 const deleteOneWorkout = (workoutId) => {
-    const indexForDeletion = DB.workouts.findIndex((workout) => workout.id === workoutId);
-    if (indexForDeletion === -1) {
-        return;
+    try {
+        const indexForDeletion = DB.workouts.findIndex(
+            (workout) => workout.id === workoutId
+        );
+        if (indexForDeletion === -1) {
+            throw {
+                status: 400,
+                message: `Can't find workout with the id '${workoutId}'`,
+            };
+        }
+        DB.workouts.splice(indexForDeletion, 1);
+        saveToDatabase(DB);
+    } catch (error) {
+        throw { status: error?.status || 500, message: error?.message || error };
     }
-    DB.workouts.splice(indexForDeletion, 1);
-    console.log(DB)
-    saveToDatabase(DB);
 }
 
 module.exports = { getAllWorkouts, getOneWorkOut, createNewWorkout, updateWorkout, deleteOneWorkout }

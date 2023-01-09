@@ -87,13 +87,25 @@ const updateOneWorkout = (req, res) => {
 }
 
 const deleteOneWorkout = (req, res) => {
-    const { params: { workoutId } } = req;
+    const {
+        params: { workoutId },
+    } = req;
     if (!workoutId) {
-        return;
+        res
+            .status(400)
+            .send({
+                status: "FAILED",
+                data: { error: "Parameter ':workoutId' can not be empty" },
+            });
     }
-
-    workoutService.deleteOneWorkout(workoutId);
-    res.status(204).send({ status: "OK" });
+    try {
+        workoutService.deleteOneWorkout(workoutId);
+        res.status(204).send({ status: "OK" });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILED", data: { error: error?.message || error } });
+    }
 }
 
 module.exports = {
