@@ -5,8 +5,13 @@ const Workout = require("../database/workout");
 
 //This layer is in charge of the business logic
 const getAllWorkouts = () => {
-    const allworkouts = Workout.getAllWorkouts();
-    return allworkouts;
+    try {
+
+        const allworkouts = Workout.getAllWorkouts();
+        return allworkouts;
+    } catch (error) {
+        throw error;
+    }
 }
 
 const getOneWorkout = (workoutId) => {
